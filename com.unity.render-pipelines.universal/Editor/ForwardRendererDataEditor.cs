@@ -22,6 +22,8 @@ namespace UnityEditor.Rendering.Universal
             public static readonly GUIContent defaultStencilStateLabel = EditorGUIUtility.TrTextContent("Default Stencil State", "Configure the stencil state for the opaque and transparent render passes.");
             public static readonly GUIContent shadowTransparentReceiveLabel = EditorGUIUtility.TrTextContent("Transparent Receive Shadows", "When disabled, none of the transparent objects will receive shadows.");
             public static readonly GUIContent invalidStencilOverride = EditorGUIUtility.TrTextContent("Error: When using the deferred rendering path, the Renderer requires the control over the 4 highest bits of the stencil buffer to store Material types. The current combination of the stencil override options prevents the Renderer from controlling the required bits. Try changing one of the options to Replace.");
+
+            public static readonly GUIContent ForceDisableColorTextureCreation = new GUIContent("Disable Color Texture", "Suppress color texture creation.");
         }
 
         SerializedProperty m_OpaqueLayerMask;
@@ -35,6 +37,7 @@ namespace UnityEditor.Rendering.Universal
         SerializedProperty m_PostProcessData;
         SerializedProperty m_Shaders;
         SerializedProperty m_ShadowTransparentReceiveProp;
+        SerializedProperty m_ForceDisableColorTextureCreation;
 
         private void OnEnable()
         {
@@ -50,6 +53,7 @@ namespace UnityEditor.Rendering.Universal
             m_PostProcessData = serializedObject.FindProperty("postProcessData");
             m_Shaders = serializedObject.FindProperty("shaders");
             m_ShadowTransparentReceiveProp = serializedObject.FindProperty("m_ShadowTransparentReceive");
+            m_ForceDisableColorTextureCreation = serializedObject.FindProperty("m_ForceDisableColorTextureCreation");
         }
 
         public override void OnInspectorGUI()
@@ -108,6 +112,13 @@ namespace UnityEditor.Rendering.Universal
                     EditorGUILayout.HelpBox(Styles.invalidStencilOverride.text, MessageType.Error, true);
             }
 #endif
+            EditorGUI.indentLevel--;
+            EditorGUILayout.Space();
+
+            EditorGUILayout.LabelField("Extra", EditorStyles.boldLabel);
+            EditorGUI.indentLevel++;
+            EditorGUILayout.PropertyField(m_ForceDisableColorTextureCreation, Styles.ForceDisableColorTextureCreation, true);
+
             EditorGUI.indentLevel--;
             EditorGUILayout.Space();
 

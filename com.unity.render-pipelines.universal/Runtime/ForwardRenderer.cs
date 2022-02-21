@@ -94,6 +94,8 @@ namespace UnityEngine.Rendering.Universal
         Material m_TileDeferredMaterial;
         Material m_StencilDeferredMaterial;
 
+        bool m_ForceDisableColorTextureCreation = false;
+
         public ForwardRenderer(ForwardRendererData data) : base(data)
         {
 #if ENABLE_VR && ENABLE_XR_MODULE
@@ -224,6 +226,8 @@ namespace UnityEngine.Rendering.Universal
                     GraphicsDeviceType.OpenGLES3
                 };
             }
+
+            m_ForceDisableColorTextureCreation = data.forceDisableColorTextureCreation;
         }
 
         /// <inheritdoc />
@@ -280,7 +284,7 @@ namespace UnityEngine.Rendering.Universal
 #if ENABLE_VR && ENABLE_VR_MODULE
             isRunningHololens = UniversalRenderPipeline.IsRunningHololens(cameraData);
 #endif
-            var createColorTexture = (rendererFeatures.Count != 0 && !isRunningHololens) && !isPreviewCamera;
+            var createColorTexture = (rendererFeatures.Count != 0 && !isRunningHololens && !m_ForceDisableColorTextureCreation) && !isPreviewCamera;
             if (createColorTexture)
             {
                 m_ActiveCameraColorAttachment = m_CameraColorAttachment;
