@@ -83,6 +83,8 @@ namespace UnityEngine.Rendering.Universal
         [SerializeField] bool m_AccurateGbufferNormals = false;
         //[SerializeField] bool m_TiledDeferredShading = false;
 
+        [SerializeField] bool m_ForceDisableColorTextureCreation = false;
+
         protected override ScriptableRenderer Create()
         {
 #if UNITY_EDITOR
@@ -185,6 +187,16 @@ namespace UnityEngine.Rendering.Universal
             }
         }
         */
+
+        public bool forceDisableColorTextureCreation
+        {
+            get => m_ForceDisableColorTextureCreation;
+            set
+            {
+                SetDirty();
+                m_ForceDisableColorTextureCreation = value;
+            }
+        }
 
         protected override void OnEnable()
         {
