@@ -62,6 +62,7 @@ namespace UnityEngine.Rendering.Universal.Internal
                 var drawSettings = CreateDrawingSettings(new ShaderTagId("MotionVectors"), ref renderingData, renderingData.cameraData.defaultOpaqueSortFlags);
                 drawSettings.perObjectData = PerObjectData.MotionVectors;
                 context.DrawRenderers(renderingData.cullResults, ref drawSettings, ref filterSettings);
+                cmd.SetGlobalTexture("_MotionVectorTexture", renderingData.cameraData.xr.motionVectorRenderTarget);
             }
             context.ExecuteCommandBuffer(cmd);
             CommandBufferPool.Release(cmd);
